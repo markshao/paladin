@@ -58,3 +58,11 @@ target/
 
 # Pycharm project structure
 .idea/
+
+# Eclipse pydev
+.project
+.pydevproject
+
+# virtualenv
+ENV/
+
