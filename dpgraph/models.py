@@ -14,11 +14,23 @@ class SplunkNode(models.Model):
 
 
 class RelationType(models.Model):
-    pass
+    type_name = models.CharField(max_length=30)
 
 class Relation(models.Model):
     source_node = models.ForeignKey(SplunkNode)
     target_ndoe = models.ForeignKey(SplunkNode)
+
+ACTIONS = (
+    (1, "Add Node"),
+    (2, "Remove Node")
+)
+
+class RelationActions(models.Model):
+    # suppose we only deal with the remove node action
+    action_type = models.IntegerField(max_length=1, choices=ACTIONS, default=2)
+    function = models.CharField(max_length=500)
+
+
 
 
 

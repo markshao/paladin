@@ -74,10 +74,15 @@ WSGI_APPLICATION = 'paladin.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+SQLLITE_PATH = os.path.join(os.path.expanduser("~/.paladin"))
+
+if not os.path.exists(SQLLITE_PATH):
+    os.mkdir(SQLLITE_PATH)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(os.path.expanduser("~"), 'paladin.sqlite3'),
+        'NAME': os.path.join(SQLLITE_PATH, 'paladin.sqlite3'),
     }
 }
 
