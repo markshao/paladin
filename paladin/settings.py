@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'dpgraph',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -74,7 +76,7 @@ WSGI_APPLICATION = 'paladin.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-SQLLITE_PATH = os.path.join(os.path.expanduser("~/.paladin"))
+SQLLITE_PATH = os.path.join(os.path.expanduser("~/test_installs"))
 
 if not os.path.exists(SQLLITE_PATH):
     os.mkdir(SQLLITE_PATH)
@@ -137,4 +139,14 @@ LOGGING = {
             'level':'DEBUG',
         },
     }
+}
+
+# REST FRAMEWORK RELATED CONFIGURATION
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }
