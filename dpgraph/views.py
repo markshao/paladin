@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
-from dpgraph.models import Environment,Node
+from dpgraph.models import Environment, Node, Connection
 from dpgraph.serializers import EnvironmentSerializer, ConnectionSerializer, NodeSerializer
 
 
@@ -34,36 +34,53 @@ def environment_list_view(request):
 @csrf_exempt
 def environment_nodes_view(request, env_id):
     if request.method == "GET":
-        nodes = Node.objects.filter(env = env_id)
+        nodes = Node.objects.filter(env=env_id)
         serializer = NodeSerializer(nodes, many=True)
         return JsonResponse(serializer.data)
 
     elif request.method == "POST":
         serializer = NodeSerializer(data=request.POST)
         serializer.is_valid(raise_exception=True)
-        serializer.create(env_id,serializer.validated_data)
+        serializer.create(env_id, serializer.validated_data)
         return JsonResponse(["ok"])
 
 
 @csrf_exempt
 def environment_node_view(request, env_id, node_id):
     if request.method == "GET":
-        pass
+        node = Node.objects.get(pk=int(node_id))
+        serializer = NodeSerializer(node)
+        return JsonResponse(serializer.data)
 
 
 @csrf_exempt
 def environment_connections_view(request, env_id):
     if request.method == "GET":
-        pass
+        connections = Connection.objects.filter(env=env_id)
+        serializer = ConnectionSerializer(connections, many=True)
+        return JsonResponse(serializer.data)
+
     elif request.method == "POST":
-        pass
+        serializer = ConnectionSerializer(data=request.POST)
+        serializer.is_valid(raise_exception=True)
+        connection, ok = serializer.create(env_id, serializer.validated_data)
+        if not ok:
+            response = {
+                "error": "node %s is not ready" % connection.node_name,
+                "ok": -1
+            }
+        else:
+            response = {
+                "error": "",
+                "ok": 1
+            }
+        return JsonResponse(response)
 
 
 @csrf_exempt
 def environment_connection_view(request, env_id, connection_id):
     if request.method == "GET":
         pass
-
 
 from django.conf.urls import url
 

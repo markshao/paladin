@@ -28,6 +28,7 @@ class ConnectionType(models.Model):
 
 class Connection(models.Model):
     source_node = models.ForeignKey(Node, related_name="source")
-    target_ndoe = models.ForeignKey(Node, related_name="target")
+    target_node  = models.ForeignKey(Node, related_name="target")
     connection_type = models.ForeignKey(ConnectionType, related_name="connection_type")
+    env = models.ForeignKey(Environment, related_name="env")
     create_time = models.DateTimeField(auto_now=True)

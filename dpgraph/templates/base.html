@@ -1,0 +1,289 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		
+		<title>Deploy Splunk In Multiple Hosts</title>
+{#   		<link rel="icon" href="/static/src/splunk.ico">#}
+    	<!-- Bootstrap core CSS -->
+    	
+		<link href="/static/css/bootstrap.css" rel="stylesheet">
+		<link href="/static/css/datatable/DT_bootstrap.css" rel="stylesheet"> 
+		<link href="/static/css/createTask.css" rel="stylesheet">
+
+        <style type="text/css" title="currentStyle">
+			@import "/static/css/datatable/demo_page.css";
+			@import "/static/css/datatable/demo_table.css";
+		</style>
+	   <!-- <script src="/static/js/jquery.min.js"></script> -->
+		<script src="/static/js/jquery-1.9.1.js"></script>
+		<script src="/static/js/jquery-ui.js"></script>
+	</head>
+	<body>
+
+
+	<div class="navbar-wrapper">
+      
+        <div class="navbar navbar-inverse" role="navigation" style="margin-bottom: 0px;border-bottom-width: 0px;">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="http://10.66.129.34/ci/home">Splunk Deployment Tool</a>
+            </div>
+            
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="http://10.66.129.34/ci/home">Tasks</a></li>
+                
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Create Deploy Task<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="http://10.66.129.34/ci/home/createsc">Cluster</a></li>
+                    <li><a href="http://10.66.129.34/ci/home/createmc">MultiSite Cluster</a></li>
+                    <li class="disabled"><a href="http://10.66.129.34/ci/home/createshc">SHC</a></li>
+                    <li class="disabled"><a href="http://10.66.129.34/ci/home/createdst">Distribute Search</a></li>
+
+                  </ul>
+                </li>
+        
+				
+				        
+				<!--instruction-->
+				
+				  <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instruction<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="https://confluence.splunk.com/display/SHAN/Website+for+deploy+splunk" target="_blank">Wiki</a></li>
+                    <li class="disabled"><a href="http://video..." target="_blank">Video</a></li>
+                    <!--<li class="divider"></li>
+                    <li><a href="/blog/create">create item</a></li>
+                    <li><a href="/blog/systemlog">System log</a></li>-->
+                  </ul>
+                 <!-- <li><a href="#about">About</a></li>
+                  <li><a href="#contact">Contact</a></li>-->
+                </li>
+                
+                
+                 </ul>
+                 
+                 
+            </div>
+            
+          </div>
+        </div>
+
+    </div>
+    
+		
+ 		<link rel="stylesheet" href="/static/css/webticker.css" type="text/css" media="screen"> 
+		<script type="text/javascript" language="javascript" src="/static/js/datatable/jquery.js"></script>
+		<script type="text/javascript" language="javascript" src="/static/js/datatable/jquery.dataTables.js"></script>
+		 <script type="text/javascript" src="/static/js/jquery.webticker.js"></script>
+	
+	
+	
+		<!-- fancy box -->
+	<script type="text/javascript" src="/static/js/jquery.mousewheel-3.0.6.pack.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.fancybox.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/jquery.fancybox.css" media="screen" />
+	
+	<style>
+	
+		#fancybox-inner {
+		 	background: rgba(215, 236, 228, 0.51);
+		} 
+	</style>
+		
+	
+	<!--messenger -->
+	<script type="text/javascript" src="/static/js/messenger.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/static/css/messenger.css" media="screen" />
+			<link rel="stylesheet" type="text/css" href="/static/css/messenger-theme-future.css" media="screen" />
+			
+			
+					
+<script type="text/javascript" charset="utf-8">
+			/* Formating function for row details */
+			function fnFormatDetails ( oTable, nTr )
+			{
+				var aData = oTable.fnGetData( nTr );
+				var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+				sOut += '<tr><td>ENV Settings:</td><td>'+aData[6]+'</td></tr>';
+				sOut += '<tr><td>Hosts to Deploy:</td><td>'+aData[5]+'</td></tr>';
+				// sOut += '<tr><td>Detail install Report:</td><td>'+aData[6]+'</td></tr>';
+				//sOut += '<tr><td>Extra Info:</td><td>And any further details here (images etc)</td></tr>';
+				sOut += '</table>';
+				
+				return sOut;
+			}
+			
+			$(document).ready(function() {
+				/*
+				 * Insert a 'details' column to the table
+				 */
+				
+			
+				
+				$("#webticker2").webTicker({duplicate:true, speed: 40, direction: 'left', rssfrequency:2, startEmpty:false, hoverpause:true});	
+				
+				var nCloneTh = document.createElement( 'th' );
+				var nCloneTd = document.createElement( 'td' );
+				nCloneTd.innerHTML = "<img src=/static/css/images/src/details_open.png>";
+				nCloneTd.className = "center";
+				
+				$('#example thead tr').each( function () {
+					this.insertBefore( nCloneTh, this.childNodes[0] );
+				} );
+				
+				$('#example tbody tr').each( function () {
+					this.insertBefore(  nCloneTd.cloneNode( true ), this.childNodes[0] );
+				} );
+				
+				/*
+				 * Initialse DataTables, with no sorting on the 'details' column
+				 */
+				var oTable = $('#example').dataTable( {
+					"aoColumnDefs": [
+						{ "bSortable": false, "aTargets": [ 0 ] }
+					],
+					"aaSorting": [[7, 'desc']]
+				});
+				
+				/* Add event listener for opening and closing details
+				 * Note that the indicator for showing which row is open is not controlled by DataTables,
+				 * rather it is done here
+				 */
+				$('#example tbody td img').live('click', function () {
+					var nTr = $(this).parents('tr')[0];
+					if ( oTable.fnIsOpen(nTr) )
+					{
+						/* This row is already open - close it */
+						this.src = "/static/css/images/src/details_open.png";
+						oTable.fnClose( nTr );
+					}
+					else
+					{
+						/* Open this row */
+						this.src = "/static/css/images/src/details_close.png";
+						oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
+					}
+				} );
+	
+				
+				$('button[id^="task_"]').live('click',function() {
+					
+		   		
+	   			
+	   			//message
+	   			
+				Messenger.options = {
+					    extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-center',
+					    theme: 'future'
+					    
+					  }
+			
+			
+			   	
+				  if($(this).html()=="Destroy"){
+						//alert("here")
+						//	$(this).html('release');$(this).html('release');
+						
+																
+						Messenger().post({
+						  message: 'Destroy environment, cleaning...',
+						  hideAfter: 2
+						}); 
+						
+						
+						var taskidhtml=$(this).attr('id');
+						var taskid=$(this).attr('id').substring(5); 
+
+						$.fancybox.showLoading();
+						$.ajax({
+						type:"POST" ,
+						cache: false ,
+						//dataType :'json' ,
+						data : {
+								taskid:taskid
+								} , 
+						url : "http://10.66.129.34/ci/home/destroy",
+						success:function(){
+							//alert("finished");
+							//$('#example tr td.btn').text("release");
+							//$(this).html('Release');
+							
+				    		window.location.reload(true);
+
+							// $.fancybox(data, {
+						 //         width: 800,
+						 //         height: 300,
+						 //         autoSize: false,
+						 //         closeClick: false,
+						 //         openEffect: 'none',
+						 //         closeEffect: 'none',
+						 //         beforeShow: function(){
+							// 		  $(".fancybox-inner").css("backgroundColor","rgba(215, 236, 228, 0.51)");
+							// 		 }
+							// });
+							
+						
+							// $.fancybox.hideLoading();
+							
+							// if (data.indexOf("occupied")==-1)
+							// {								
+							// 	if ($('#'+createridhtml).html()=="Auto")
+							// 	{
+							// 		$('#'+taskidhtml).html('Release');	
+							// 		$('#'+usedbyidhtml).html(userid);	
+							// 	}else{
+							// 		$('#'+taskidhtml).html('KILL!');	
+							// 		$('#'+taskidhtml).removeClass( "btn btn-success" ).addClass( "btn btn-warning" );
+							// 		$('#'+usedbyidhtml).html(userid);	
+								
+							// 	}
+							// 	$('#'+taskidhtml).html('KILL!');	
+							// 	$('#'+taskidhtml).removeClass( "btn btn-success" ).addClass( "btn btn-warning" );
+							// 	$('#'+usedbyidhtml).html(userid);	
+							// }
+							
+												
+						}
+				
+	
+						 });
+				 }
+				 
+		
+			    //window.location.replace("http://10.66.129.34/ci/home")	
+				
+				//window.location.reload(true);
+				});
+			});
+		</script>
+</body>
+
+{% block environment_list %}
+{% endblock %}
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  	
+	<div class="container" >
+		  <hr style="
+    margin-top: 40px;
+    margin-bottom: 5px;">
+    <!-- FOOTER -->
+      <footer>
+        <p class="pull-right"><a href="mailto:jackw@splunk.com">Any question or issues?</a></p>
+        <p style="color: white;">&copy; 2015 Splunk, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+	</div>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/holder.min.js"></script>
+  </body>
+</html>		

@@ -134,9 +134,9 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers':['file'],
+            'handlers': ['file'],
             'propagate': True,
-            'level':'DEBUG',
+            'level': 'DEBUG',
         },
     }
 }
@@ -151,5 +151,8 @@ REST_FRAMEWORK = {
     ]
 }
 
-
 APPEND_SLASH = True
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
