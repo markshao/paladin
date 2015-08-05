@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+# celery configuration
+import djcelery
+djcelery.setup_loader()
+BROKER_URL = 'django://'
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -38,6 +44,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dpgraph',
+    'djcelery',
+    'kombu.transport.django',
     'rest_framework',
 )
 
@@ -156,3 +164,5 @@ APPEND_SLASH = True
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+CELERY_IMPORTS = ("orchestration.asynctasks",)

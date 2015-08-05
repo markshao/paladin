@@ -16,10 +16,11 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from dpgraph.views import urlpatterns
-from view import enviornment_list
+from view import enviornment_list,create_idx
 
 urlpatterns = [
     url(r'^$',enviornment_list),
+    url(r'^createidx/$',create_idx),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^dpgraph/', include(urlpatterns))
 ]

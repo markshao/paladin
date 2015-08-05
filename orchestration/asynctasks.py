@@ -1,5 +1,5 @@
 from celery.task import task
+import logging
 
-@task
-def add(x,y):
-    return x
+logger = logging.getLogger("async_deploy_task")
+
