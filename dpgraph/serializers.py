@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models import Environment, Node, Connection
+from models import Environment, Node, Connection, CloudProviderType
 
 
 class EnvironmentSerializer(serializers.ModelSerializer):
@@ -18,14 +18,18 @@ class NodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Node
         fields = ("id", "node_name", "node_type", "env", "ip", "splunkd_port",
-                  "splunkw_port", "username", "password", "running")
-        read_only_fields = ("id", "env", "ip", "splunkd_port", "splunkw_port", "username", "password", "running")
+                  "splunkw_port", "ssh_username", "ssh_password", "splunk_username", "splunk_password", "running",
+                  "cloud_provider", "provider_instance")
+        read_only_fields = (
+            "id", "env", "ip", "splunkd_port", "splunkw_port", "ssh_username", "ssh_password", "splunk_username",
+            "splunk_password", "running", "provider_instance")
 
     def create(self, env_id, validated_data):
         node_name = validated_data.pop("node_name")
         node_type = validated_data.pop("node_type")
+        cloud_provider = validated_data.pop("cloud_provider")
         env = Environment.objects.get(pk=int(env_id))
-        node = Node.objects.create(node_name=node_name, env=env, node_type=node_type)
+        node = Node.objects.create(node_name=node_name, env=env, node_type=node_type, cloud_provider=cloud_provider)
         return node
 
 

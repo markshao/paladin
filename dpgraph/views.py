@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from dpgraph.models import Environment, Node, Connection
 from dpgraph.serializers import EnvironmentSerializer, ConnectionSerializer, NodeSerializer
+from providers.docker.asynctasks import delay_create_container
 
 
 class JsonResponse(HttpResponse):
@@ -16,19 +17,30 @@ class JsonResponse(HttpResponse):
         super(JsonResponse, self).__init__(content, **kwargs)
 
 
+def response_schema(status_code, data, error_message=None):
+    return JsonResponse({
+        "statsu_code": status_code,
+        "error_message": error_message,
+        "data": data
+    })
+
+STATUS_CODE = {
+    "SUCCESS":0
+}
+
 @csrf_exempt
 def environment_list_view(request):
     if request.method == "GET":
         enviroments = Environment.objects.all()
         serializer = EnvironmentSerializer(enviroments, many=True)
-        return JsonResponse(serializer.data)
-
+        return response_schema(STATUS_CODE["SUCCESS"],serializer.data)
 
     elif request.method == "POST":
         serializer = EnvironmentSerializer(data=request.POST)
         serializer.is_valid(raise_exception=True)
-        serializer.create(serializer.validated_data)
-        return JsonResponse([])
+        environment = serializer.create(serializer.validated_data)
+        new_serializer = EnvironmentSerializer(environment)
+        return response_schema(STATUS_CODE["SUCCESS"],new_serializer.data)
 
 
 @csrf_exempt
@@ -36,13 +48,15 @@ def environment_nodes_view(request, env_id):
     if request.method == "GET":
         nodes = Node.objects.filter(env=env_id)
         serializer = NodeSerializer(nodes, many=True)
-        return JsonResponse(serializer.data)
+        return response_schema(STATUS_CODE["SUCCESS"],serializer.data)
 
     elif request.method == "POST":
         serializer = NodeSerializer(data=request.POST)
         serializer.is_valid(raise_exception=True)
-        serializer.create(env_id, serializer.validated_data)
-        return JsonResponse(["ok"])
+        node = serializer.create(env_id, serializer.validated_data)
+        new_serializer = NodeSerializer(node)
+        task = delay_create_container.delay("1",node.pk)
+        return response_schema(STATUS_CODE["SUCCESS"],new_serializer.data)
 
 
 @csrf_exempt
@@ -64,23 +78,14 @@ def environment_connections_view(request, env_id):
         serializer = ConnectionSerializer(data=request.POST)
         serializer.is_valid(raise_exception=True)
         connection, ok = serializer.create(env_id, serializer.validated_data)
-        if not ok:
-            response = {
-                "error": "node %s is not ready" % connection.node_name,
-                "ok": -1
-            }
-        else:
-            response = {
-                "error": "",
-                "ok": 1
-            }
-        return JsonResponse(response)
+        return JsonResponse([])
 
 
 @csrf_exempt
 def environment_connection_view(request, env_id, connection_id):
     if request.method == "GET":
         pass
+
 
 from django.conf.urls import url
 

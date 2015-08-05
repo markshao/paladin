@@ -165,4 +165,4 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-CELERY_IMPORTS = ("orchestration.asynctasks",)
+CELERY_IMPORTS = ("orchestration.asynctasks","providers.docker.asynctasks")

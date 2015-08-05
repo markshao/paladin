@@ -7,6 +7,13 @@ class Provider(object):
     def remove(self, node_id):
         raise NotImplemented
 
-    def provider_name(self):
-        raise NotImplemented
+    @classmethod
+    def provider_name(cls):
+        return cls.name
 
+
+from providers.docker import DockerProvider
+
+PROVIDER_MAPPING = {
+    DockerProvider.provider_name(): DockerProvider
+}
