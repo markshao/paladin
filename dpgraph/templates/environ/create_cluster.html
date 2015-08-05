@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block body_container %}
+
+    <div class="container">
+		<!-- <h3 style="margin-top: 30px;">Cluster settings</h3> -->
+		<div style="margin-top: 5px;border-bottom-width: 5px;background:white;padding-left: 10px;padding-top: 5px;border-right-width: 10px;" id="dt_content">
+
+		<h3><span class="label label-warning">Multi-Cluster settings</span></h3>
+		  <!-- <p>Configurations of cluster that you need to deploy</p> -->
+		 	<br>
+			<form role="form" class="form-horizontal">
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label ">Build</label>
+			    <div style="width:50%" class="col-sm-10">
+			      <input type="text" value="http://10.66.4.29:8091/build.tgz" id="build" class="form-control">
+			    </div>
+			  </div>
+
+
+			 <div class="form-group">
+			    <label class="col-sm-2 control-label">Site Num</label>
+			    <div style="width:30%" class="col-sm-10">
+			      <input type="text" value="3" id="sitenum" class="form-control">
+			    </div>
+			  </div>
+
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">Peer Num In Site</label>
+			    <div style="width:30%" class="col-sm-10">
+			      <input type="text" value="3" id="peernum" class="form-control">
+			    </div>
+			  </div>
+
+  			  <div class="form-group">
+			    <label class="col-sm-2 control-label">Search Head Num In Site</label>
+			    <div style="width:30%" class="col-sm-10">
+			      <input type="text" value="1" id="shnum" class="form-control">
+			    </div>
+			  </div>
+
+
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">Search factor</label>
+			    <div style="width:30%" class="col-sm-10">
+			      <input type="text" value="2" id="sf" class="form-control">
+			    </div>
+			  </div>
+
+
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">Replication factor</label>
+			    <div style="width:30%" class="col-sm-10">
+			      <input type="text" value="3" id="rf" class="form-control">
+			    </div>
+			  </div>
+
+	  		<div class="form-group">
+			    <label class="col-sm-2 control-label">Site_Search_factor</label>
+			    <div style="width:30%" class="col-sm-10">
+			      <input type="text" value="origin:1,total:3" id="site_sf" class="form-control">
+			    </div>
+			  </div>
+
+
+			  <div class="form-group">
+			    <label class="col-sm-2 control-label">Site_Replication_factor</label>
+			    <div style="width:30%" class="col-sm-10">
+			      <input type="text" value="origin:2,total:4" id="site_rf" class="form-control">
+			    </div>
+			  </div>
+
+
+			  <hr>
+			  <!-- <h3>Hosts to deploy Splunk</h3> -->
+			  <h3><span class="label label-warning">Hosts to deploy</span></h3>
+
+  				<!-- <p>Hosts information for deploy splunk cluster</p> -->
+			 	<br>
+
+  				<div class="form-group">
+			    <label class="col-sm-2 control-label">Hosts Username</label>
+				    <div style="width:30%" class="col-sm-10">
+				      <input type="text" value="root" id="username" class="form-control">
+				    </div>
+			  	</div>
+
+
+  			  <div class="form-group">
+			    <label class="col-sm-2 control-label">Hosts Password</label>
+			    <div style="width:30%" class="col-sm-10">
+			      <input type="text" value="password" id="password" class="form-control">
+			    </div>
+			  </div>
+
+			  <div class="form-group">
+			     <label for="Hosts" class="col-sm-2 control-label">Hosts:</label>
+			    <div style="width:50%" class="col-sm-10">
+			      <textarea id="hosts" rows="10" class="form-control"></textarea>
+			 	</div>
+
+			  </div>
+
+
+			   <button style="
+				    width: 134px;
+				    margin-left: 20%;
+				" class="btn btn-info btn-lg" type="button" id="submit">Submit Job</button>
+
+			</form>
+			<hr>
+
+ 		</div>
+	</div>
+
+
+
+{% endblock %}

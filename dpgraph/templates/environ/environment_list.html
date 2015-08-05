@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block body_container %}
+<div class="container">
+			<div id="dt_example">
+			<div id="dt_content" style="margin-left: 20px;margin-right: 20px;margin-top: 5px;border-bottom-width: 5px;">
+
+			<h1 style="font-weight: bold;">Tasks List </h1>
+			<div id="demo" style="margin-bottom: 20px">
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="example" style="margin-bottom: 8px">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Type</th>
+			<th>Build</th>
+	<!-- 	<th style="display: none">Buildinstalldetail</th>
+			<th style="display: none">InstallSummary</th>
+			<th style="display: none">InstallDetail</th>
+			<th style="display: none">id</th> -->
+			<th>Master</th>
+			<th style="display: none">Host</th>
+			<th style="display: none">Settings</th>
+
+			<th>CreateTime</th>
+			<th>FinishTime</th>
+			<th>Status</th>
+			<th>Details</th>
+
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr class="gradeX"><td>106</td><td>single_cluster</td><td><a href="http://10.66.4.113:8091/splunk-6.2.3-264376-Linux-x86_64.tgz target= "_blank"/>splunk-6.2.3-264376-Linux-x86_64.tgz</a></td><td><a href="http://10.66.130.170:8000" target="_blank"/> 10.66.130.170
+</a></td><td style="display:none">- 10.66.130.170
+- 10.66.130.175
+- 10.66.130.165
+- 10.66.130.174
+- 10.66.130.171
+- 10.66.130.172
+- 10.66.130.173
+</td><td style="display:none">sh_num:3<br>peer_num:3<br>search_factor: 2<br>replication_factor: 3</td><td>2015-06-26 07:49:29</td><td>2015-06-26 15:50:56</td><td>done</td><td><button class="btn btn-success" id="task_106" type="submit">Destroy</button></td></tr><tr class="gradeX"><td>103</td><td>single_cluster</td><td><a href="http://10.66.4.106:7777/splunk.tgz target= "_blank"/>splunk.tgz</a></td><td><a href="http://10.66.130.124:8000" target="_blank"/> 10.66.130.124
+</a></td><td style="display:none">- 10.66.130.124
+- 10.66.130.125
+- 10.66.130.123
+- 10.66.130.126
+- 10.66.130.127
+- 10.66.130.128
+- 10.66.130.120
+- 10.66.130.121
+- 10.66.130.122</td><td style="display:none">sh_num:3<br>peer_num:5<br>search_factor: 2<br>replication_factor: 3</td><td>2015-06-02 08:29:49</td><td>2015-06-02 16:36:09</td><td>done</td><td><button class="btn btn-success" id="task_103" type="submit">Destroy</button></td></tr><tr class="gradeX"><td>102</td><td>single_cluster</td><td><a href="http://releases.splunk.com/dl/current_builds/6.3.0-20150517-1330/splunk-6.3.0-a2eaaeb2dd28-Linux-x86_64.tgz target= "_blank"/>splunk-6.3.0-a2eaaeb2dd28-Linux-x86_64.tgz</a></td><td><a href="http://10.66.129.58:8000" target="_blank"/>10.66.129.58
+</a></td><td style="display:none">-10.66.129.58
+-10.66.128.41
+-10.66.128.42
+-10.66.129.119
+-10.66.129.118</td><td style="display:none">sh_num:1<br>peer_num:3<br>search_factor: 2<br>replication_factor: 3</td><td>2015-05-18 02:41:19</td><td>2015-05-18 10:47:39</td><td>done</td><td><button class="btn btn-success" id="task_102" type="submit">Destroy</button></td></tr><tr class="gradeX"><td>98</td><td>single_cluster</td><td><a href="http://releases.splunk.com/dl/current_builds/6.3-20150401-0010/splunk-6.3-7fc682e4db9e-Linux-x86_64.tgz target= "_blank"/>splunk-6.3-7fc682e4db9e-Linux-x86_64.tgz</a></td><td><a href="http://10.66.129.60:8000" target="_blank"/> 10.66.129.60
+</a></td><td style="display:none">- 10.66.129.60
+- 10.66.129.61
+- 10.66.129.62
+- 10.66.129.63
+- 10.66.129.64</td><td style="display:none">sh_num:1<br>peer_num:3<br>search_factor: 2<br>replication_factor: 3</td><td>2015-04-03 02:54:08</td><td>2015-04-03 11:04:27</td><td>done</td><td><button class="btn btn-success" id="task_98" type="submit">Destroy</button></td></tr><tr class="gradeX"><td>97</td><td>single_cluster</td><td><a href="http://releases.splunk.com/dl/dash_builds/6.2.1-20141130-2200/splunk-6.2.1-243257-Linux-x86_64.tgz target= "_blank"/>splunk-6.2.1-243257-Linux-x86_64.tgz</a></td><td><a href="http://10.66.129.58:8000" target="_blank"/>10.66.129.58
+</a></td><td style="display:none">-10.66.129.58
+-10.66.128.41
+-10.66.128.42
+-10.66.129.119
+-10.66.129.118</td><td style="display:none">sh_num:1<br>peer_num:3<br>search_factor: 2<br>replication_factor: 3</td><td>2015-04-02 06:13:38</td><td>2015-04-02 14:17:55</td><td>done</td><td><button class="btn btn-success" id="task_97" type="submit">Destroy</button></td></tr><tr class="gradeX"><td>93</td><td>single_cluster</td><td><a href="http://releases.splunk.com/dl/6.2.2_builds/6.2.2-20150203-1500/splunkforwarder-6.2.2-252612-Linux-x86_64.tgz target= "_blank"/>splunkforwarder-6.2.2-252612-Linux-x86_64.tgz</a></td><td><a href="http://10.66.129.60:8000" target="_blank"/>10.66.129.60
+</a></td><td style="display:none">-10.66.129.60
+-10.66.129.61
+-10.66.129.62
+-10.66.129.63
+-10.66.129.64
+</td><td style="display:none">sh_num:1<br>peer_num:3<br>search_factor: 2<br>replication_factor: 3</td><td>2015-03-26 09:15:29</td><td>2015-04-02 11:11:54</td><td>done</td><td><button class="btn btn-success" id="task_93" type="submit">Destroy</button></td></tr><tr class="gradeX"><td>91</td><td>single_cluster</td><td><a href="http://releases.splunk.com/dl/forwarder-mgmt_builds/6.3-20150326-0000/splunk-6.3-4335b512ff14-Linux-x86_64.tgz target= "_blank"/>splunk-6.3-4335b512ff14-Linux-x86_64.tgz</a></td><td><a href="http://10.66.129.60:8000" target="_blank"/> 10.66.129.60
+    </a></td><td style="display:none">    - 10.66.129.60
+    - 10.66.129.61
+    - 10.66.129.62
+    - 10.66.129.63
+    - 10.66.129.64
+    - 10.66.129.65
+    - 10.66.129.66
+    - 10.66.129.67
+    - 10.66.129.68
+    - 10.66.129.69
+    - 10.66.129.70
+    - 10.66.129.71</td><td style="display:none">sh_num:1<br>peer_num:3<br>search_factor: 2<br>replication_factor: 3</td><td>2015-03-26 08:18:53</td><td>2015-03-26 16:23:33</td><td>done</td><td><button class="btn btn-success" id="task_91" type="submit">Destroy</button></td></tr><tr class="gradeX"><td>89</td><td>multisite_cluster</td><td><a href="http://10.66.4.29:8091/splunk-6.3-4335b512ff14-Linux-x86_64.tgz target= "_blank"/>splunk-6.3-4335b512ff14-Linux-x86_64.tgz</a></td><td><a href="http://10.66.129.60:8000" target="_blank"/> 10.66.129.60
+    </a></td><td style="display:none">    - 10.66.129.60
+    - 10.66.129.61
+    - 10.66.129.62
+    - 10.66.129.63
+    - 10.66.129.64
+    - 10.66.129.65
+    - 10.66.129.66
+    - 10.66.129.67
+    - 10.66.129.68
+</td><td style="display:none">site_num:2<br>site_search_factor:origin:1,total:2<br>site_replication_factor:origin:2,total:3<br>sh_num:1<br>peer_num:3<br>search_factor: 2<br>replication factor: 3</td><td>2015-03-26 07:45:00</td><td>2015-03-26 16:03:09</td><td>done</td><td><button class="btn btn-success" id="task_89" type="submit">Destroy</button></td></tr><tr class="gradeX"><td>88</td><td>single_cluster</td><td><a href="http://10.66.4.29:8091/splunk-6.3-4335b512ff14-Linux-x86_64.tgz target= "_blank"/>splunk-6.3-4335b512ff14-Linux-x86_64.tgz</a></td><td><a href="http://10.66.129.60:8000" target="_blank"/> 10.66.129.60
+    </a></td><td style="display:none">    - 10.66.129.60
+    - 10.66.129.61
+    - 10.66.129.62
+    - 10.66.129.63
+    - 10.66.129.64</td><td style="display:none">sh_num:1<br>peer_num:3<br>search_factor: 2<br>replication_factor: 3</td><td>2015-03-26 02:43:51</td><td>2015-03-26 15:39:26</td><td>done</td><td><button class="btn btn-success" id="task_88" type="submit">Destroy</button></td></tr>		<!--<tr class="gradeX">
+			<td>Win7 64bit</td>
+			<td>8Cores/16GB</td>
+			<td>ama-12051,ami_solver-12051,ami-12349</td>
+			<td>Install Fail</td>
+			<td>xxxx</td>
+			<td>N</td>
+			<td><button class="btn btn-success" disabled="disabled" type="submit">Apply</button></td>
+		</tr>
+		<tr class="gradeC">
+			<td>Win8 64bit</td>
+			<td>4Cores/16GB</td>
+			<td>xxxx</td>
+			<td>Installing</td>
+			<td>xx</td>
+			<td>N</td>
+			<td><button class="btn btn-success" type="submit">Apply</button></td>
+		</tr>
+		<tr class="gradeA">
+			<td>Win7 64bit</td>
+			<td>8Cores/16GB</td>
+			<td>xxxx</td>
+			<td>Install Pass</td>
+			<td>xxxxx</td>
+			<td>Y</td>
+			<td><button class="btn btn-success" type="submit">Apply</button></td>
+		</tr>-->
+
+
+	</tbody>
+</table>
+	</div>
+
+
+	<br />
+		</div>
+	</div>
+
+
+
+
+    </div><!-- /.container -->
+{% endblock %}
