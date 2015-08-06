@@ -10,10 +10,10 @@ class DockerProvider(Provider):
         self.scheduler = ContainerCountScheduler()
 
     def create(self, **kwargs):
-        engine = self.scheduler.select_docker_engine()
-        docker_service = DockerService(engine)
+        client, engine = self.scheduler.select_docker_engine()
+        docker_service = DockerService(client)
         container = docker_service.start_container(**kwargs)
-        return container
+        return container,engine
 
     def remove(self, node_id):
         pass

@@ -4,9 +4,11 @@ import logging
 
 logger = logging.getLogger("docker_scheduler")
 
+
 class Scheduler(object):
     def select_docker_engine(self):
         raise NotImplemented
+
 
 class ContainerCountScheduler(Scheduler):
     def select_docker_engine(self):
@@ -16,6 +18,8 @@ class ContainerCountScheduler(Scheduler):
             return None
         else:
             docker_engines = list(docker_engines)
-            docker_engines.sort(lambda x,y:x.container_count - y.container_count)
+            docker_engines.sort(lambda x, y: x.container_count - y.container_count)
             engine = docker_engines[0]
-            return docker_client(cert_path=engine.cert_path, base_url=engine.baseurl,tls_verify=bool(engine.tls_verify))
+            base_url = "tcp://%s:%s" % (engine.ip, engine.port)
+            return docker_client(cert_path=engine.cert_path, base_url=base_url,
+                                 tls_verify=bool(engine.tls_verify)), engine

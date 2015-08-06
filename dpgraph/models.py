@@ -17,6 +17,9 @@ class CloudProviderType(models.Model):
     type = models.CharField(max_length=255, choices=CLOUD_TYPE)
     instances = models.IntegerField(default=0)
 
+    def __unicode__(self):
+        return self.type
+
 
 class VsphereInstance(models.Model):
     provider = models.ForeignKey(CloudProviderType, related_name="vsphere_cloud_provider")
@@ -26,14 +29,21 @@ class VsphereInstance(models.Model):
     vm_count = models.IntegerField()
     status = models.IntegerField(choices=CLOUD_STATUS, default=0)
 
+    def __unicode__(self):
+        return self.pk
+
 
 class DockerInstance(models.Model):
     provider = models.ForeignKey(CloudProviderType, related_name="docker_cloud_provider")
-    baseurl = models.CharField(max_length=255)
+    ip = models.GenericIPAddressField(blank=True,null=True,default=None)
+    port = models.IntegerField(default=2376)
     tls_verify = models.BooleanField(default=True)
     cert_path = models.CharField(max_length=500)
     container_count = models.IntegerField()
     status = models.IntegerField(choices=CLOUD_STATUS, default=0)
+
+    def __unicode__(self):
+        return self.ip
 
 
 ENV_STATUS = (
@@ -47,9 +57,15 @@ class Environment(models.Model):
     create_time = models.DateTimeField(auto_now=True)
     status = models.IntegerField(choices=ENV_STATUS, default=2)
 
+    def __unicode__(self):
+        return "env_%s" % self.name
+
 
 class NodeType(models.Model):
     type_name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.type_name
 
 
 class Node(models.Model):
@@ -59,6 +75,7 @@ class Node(models.Model):
     ip = models.GenericIPAddressField(null=True, blank=True)
     splunkd_port = models.IntegerField(default=8000)
     splunkw_port = models.IntegerField(default=8089)
+    ssh_port = models.IntegerField(default=22)
     splunk_username = models.CharField(max_length=30, default="admin")
     splunk_password = models.CharField(max_length=30, default="notchangeme")
     ssh_username = models.CharField(max_length=30, default="root")
@@ -67,11 +84,17 @@ class Node(models.Model):
     cloud_provider = models.ForeignKey(CloudProviderType, related_name="node_cloud_provider")
     provider_instance = models.IntegerField(blank=True, null=True)  # pk of instance table
     image_name = models.CharField(max_length=255, blank=True, null=True)
+    container_id = models.CharField(max_length=255,blank=True, null=True)
     build_number = models.CharField(max_length=255, blank=True, null=True)
 
+    def __unicode__(self):
+        return "%s_%s" % (self.node_name,self.node_type.type_name)
 
 class ConnectionType(models.Model):
     type_name = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return self.type_name
 
 
 class Connection(models.Model):
@@ -80,6 +103,9 @@ class Connection(models.Model):
     connection_type = models.ForeignKey(ConnectionType, related_name="connection_type")
     env = models.ForeignKey(Environment, related_name="env")
     create_time = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "%s_%s_connection" % (self.source_node.node_name,self.target_node.node_name)
 
 
 from django.contrib import admin
