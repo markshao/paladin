@@ -90,6 +90,20 @@ class DockerService(object):
         )
         return container
 
+    def _get_links(self, link_to_self):
+        links = []
+        for service, link_name in self.links:
+            for container in service.containers():
+                links.append((container.name, link_name or service.name))
+                links.append((container.name, container.name))
+                links.append((container.name, container.name_without_project))
+        if link_to_self:
+            for container in self.containers():
+                links.append((container.name, self.name))
+                links.append((container.name, container.name))
+                links.append((container.name, container.name_without_project))
+        return links
+
     def start_or_create_containers(self, insecure_registry=False):
         containers = self.containers(stopped=True)
 
@@ -136,9 +150,7 @@ class DockerService(object):
         container_options = dict((k, self.options[k]) for k in DOCKER_CONFIG_KEYS if k in self.options)
         container_options.update(override_options)
 
-        container_options['name'] = self._next_container_name(
-            self.containers(stopped=True, one_off=one_off),
-            one_off)
+        container_options['name'] = "masfd"
 
         # If a qualified hostname was given, split it into an
         # unqualified hostname and a domainname unless domainname
@@ -185,6 +197,9 @@ class DockerService(object):
                 del container_options[key]
 
         return container_options
+
+    def can_be_built(self):
+        return 'build' in self.options
 
     def containers(self, stopped=False, one_off=False):
         return [Container.from_ps(self.client, container)
