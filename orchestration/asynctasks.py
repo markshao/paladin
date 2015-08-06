@@ -1,5 +1,9 @@
 from celery.task import task
 import logging
+from dpgraph.models import Node
+from providers import Machine
+
+SPLUNK_BIN = "/tmp/splunk/bin/splunk"
 
 logger = logging.getLogger("async_deploy_task")
 
@@ -10,7 +14,25 @@ def initialize_master(node_id):
     :param node_id: the node selected to be the index master
     :return:
     '''
-    pass
+    node = Node.objects.get(pk=int(node_id))
+    machine = Machine(node)
+
+    return_code = 0
+    if (machine.is_ssh_accessible()):
+        command = "{s} {args}".format(
+            s=SPLUNK_BIN,
+            args=("edit cluster-config -mode master -secret secret12 "
+                  "-auth admin:notchangeme"))
+        _, tmp_return_code = machine.execute_command(command)
+        return_code += tmp_return_code
+
+        command = "{s} {args}".format(s=SPLUNK_BIN, args="stop -f")
+        _, tmp_return_code = machine.execute_command(command)
+        return_code += tmp_return_code
+        if return_code > 0:
+            raise Exception("Command execute failed.")
+    else:
+        raise Exception("Machine is unreachable.")
 
 @task
 def connect_to_index_cluster(node_id, master_id):
