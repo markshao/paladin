@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from orchestration.asynctasks import a
+# from orchestration.asynctasks import
 
 def enviornment_list(request):
     rest = a.delay(1,2)
@@ -9,3 +9,7 @@ def enviornment_list(request):
 def create_idx(request):
     if request.method == "GET":
         return render(request, "environ/create_cluster.html")
+
+def modify_environment(request):
+    if request.method == "GET":
+        return render(request, "graph/dom.html")

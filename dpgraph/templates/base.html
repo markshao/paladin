@@ -165,13 +165,13 @@
             }
 
 
-            if ($(this).html() == "Destroy") {
+            if ($(this).html() == "Modify") {
                 //alert("here")
                 //	$(this).html('release');$(this).html('release');
 
 
                 Messenger().post({
-                    message: 'Destroy environment, cleaning...',
+                    message: 'Modify environment, cleaning...',
                     hideAfter: 2
                 });
 
@@ -181,19 +181,20 @@
 
                 $.fancybox.showLoading();
                 $.ajax({
-                    type: "POST",
+                    type: "GET",
                     cache: false,
                     //dataType :'json' ,
                     data: {
                         taskid: taskid
                     },
-                    url: "http://10.66.129.34/ci/home/destroy",
+                    //url: "http://10.66.129.34/ci/home/destroy",
+                    url: "http://localhost:8000",
                     success: function () {
                         //alert("finished");
                         //$('#example tr td.btn').text("release");
                         //$(this).html('Release');
 
-                        window.location.reload(true);
+                        window.open("http://localhost:8000/modifyenv/"+taskid,"_blank")
 
                         // $.fancybox(data, {
                         //         width: 800,
