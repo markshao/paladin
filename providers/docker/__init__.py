@@ -12,8 +12,8 @@ class DockerProvider(Provider):
     def create(self, **kwargs):
         engine = self.scheduler.select_docker_engine()
         docker_service = DockerService(engine)
-        container = docker_service.create_container(**kwargs)
-        docker_service.start_container(container)
+        container = docker_service.start_container(**kwargs)
+        return container
 
     def remove(self, node_id):
         pass

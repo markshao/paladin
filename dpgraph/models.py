@@ -65,7 +65,9 @@ class Node(models.Model):
     ssh_password = models.CharField(max_length=30, default="password")
     running = models.BooleanField(default=False)
     cloud_provider = models.ForeignKey(CloudProviderType, related_name="node_cloud_provider")
-    provider_instance = models.IntegerField(blank=True,null=True)  # pk of instance table
+    provider_instance = models.IntegerField(blank=True, null=True)  # pk of instance table
+    image_name = models.CharField(max_length=255, blank=True, null=True)
+    build_number = models.CharField(max_length=255, blank=True, null=True)
 
 
 class ConnectionType(models.Model):
@@ -79,7 +81,9 @@ class Connection(models.Model):
     env = models.ForeignKey(Environment, related_name="env")
     create_time = models.DateTimeField(auto_now=True)
 
+
 from django.contrib import admin
+
 admin.site.register(CloudProviderType)
 admin.site.register(DockerInstance)
 admin.site.register(VsphereInstance)

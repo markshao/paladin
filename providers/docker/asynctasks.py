@@ -3,10 +3,13 @@ from providers.docker import DockerProvider
 
 provider = DockerProvider()
 
+
 @task
-def delay_create_container(image_name, node_id):
-    provider.create(**{
-        "image":"10.66.129.13:5000/coreqa/splunkbase",
-        "ports":[8000,8089]
+def delay_create_container(image_name, env_id, node_id, node_type):
+    container_name = "%s_%s_%s" % (env_id, node_type, node_id)
+
+    container = provider.create(**{
+        "image": "markshao/rider_splunk:234",
+        "ports": ["8000", "8089", "22"],
+        "name":container_name
     })
-    return "1"

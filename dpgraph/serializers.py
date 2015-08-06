@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from models import Environment, Node, Connection, CloudProviderType
+from providers.docker.asynctasks import delay_create_container
 
 
 class EnvironmentSerializer(serializers.ModelSerializer):
@@ -19,17 +20,22 @@ class NodeSerializer(serializers.ModelSerializer):
         model = Node
         fields = ("id", "node_name", "node_type", "env", "ip", "splunkd_port",
                   "splunkw_port", "ssh_username", "ssh_password", "splunk_username", "splunk_password", "running",
-                  "cloud_provider", "provider_instance")
+                  "cloud_provider", "provider_instance", "image_name", "build_number")
         read_only_fields = (
-            "id", "env", "ip", "splunkd_port", "splunkw_port", "ssh_username", "ssh_password", "splunk_username",
-            "splunk_password", "running", "provider_instance")
+            "id", "node_name", "env", "ip", "splunkd_port", "splunkw_port", "ssh_username", "ssh_password",
+            "splunk_username",
+            "splunk_password", "running", "provider_instance", "image_name", "build_number")
 
-    def create(self, env_id, validated_data):
-        node_name = validated_data.pop("node_name")
+    def create(self, env_id, validated_data,request):
         node_type = validated_data.pop("node_type")
         cloud_provider = validated_data.pop("cloud_provider")
         env = Environment.objects.get(pk=int(env_id))
-        node = Node.objects.create(node_name=node_name, env=env, node_type=node_type, cloud_provider=cloud_provider)
+        node = None
+        if cloud_provider.type == "DOCKER":
+            image_name = request.POST["image_name"]
+            node = Node.objects.create(env=env, node_type=node_type, cloud_provider=cloud_provider,
+                                       image_name=image_name)
+            delay_create_container.delay(image_name,env_id,node.pk,node_type.type_name)
         return node
 
 

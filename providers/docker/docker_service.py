@@ -80,10 +80,10 @@ class DockerService(object):
         dns = options.get('dns', None)
 
         container.start(
-            links=self._get_links(link_to_self=options.get('one_off', False)),
+            # links=self._get_links(link_to_self=options.get('one_off', False)),
             port_bindings=port_bindings,
-            binds=volume_bindings,
-            volumes_from=self._get_volumes_from(intermediate_container),
+            # binds=volume_bindings,
+            # volumes_from=self._get_volumes_from(intermediate_container),
             privileged=privileged,
             network_mode=net,
             dns=dns,
@@ -149,8 +149,6 @@ class DockerService(object):
     def _get_container_create_options(self, override_options, one_off=False):
         container_options = dict((k, self.options[k]) for k in DOCKER_CONFIG_KEYS if k in self.options)
         container_options.update(override_options)
-
-        container_options['name'] = "masfd"
 
         # If a qualified hostname was given, split it into an
         # unqualified hostname and a domainname unless domainname

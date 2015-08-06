@@ -3,7 +3,6 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from dpgraph.models import Environment, Node, Connection
 from dpgraph.serializers import EnvironmentSerializer, ConnectionSerializer, NodeSerializer
-from providers.docker.asynctasks import delay_create_container
 
 
 class JsonResponse(HttpResponse):
@@ -24,23 +23,25 @@ def response_schema(status_code, data, error_message=None):
         "data": data
     })
 
+
 STATUS_CODE = {
-    "SUCCESS":0
+    "SUCCESS": 0
 }
+
 
 @csrf_exempt
 def environment_list_view(request):
     if request.method == "GET":
         enviroments = Environment.objects.all()
         serializer = EnvironmentSerializer(enviroments, many=True)
-        return response_schema(STATUS_CODE["SUCCESS"],serializer.data)
+        return response_schema(STATUS_CODE["SUCCESS"], serializer.data)
 
     elif request.method == "POST":
         serializer = EnvironmentSerializer(data=request.POST)
         serializer.is_valid(raise_exception=True)
         environment = serializer.create(serializer.validated_data)
         new_serializer = EnvironmentSerializer(environment)
-        return response_schema(STATUS_CODE["SUCCESS"],new_serializer.data)
+        return response_schema(STATUS_CODE["SUCCESS"], new_serializer.data)
 
 
 @csrf_exempt
@@ -48,15 +49,14 @@ def environment_nodes_view(request, env_id):
     if request.method == "GET":
         nodes = Node.objects.filter(env=env_id)
         serializer = NodeSerializer(nodes, many=True)
-        return response_schema(STATUS_CODE["SUCCESS"],serializer.data)
+        return response_schema(STATUS_CODE["SUCCESS"], serializer.data)
 
     elif request.method == "POST":
         serializer = NodeSerializer(data=request.POST)
         serializer.is_valid(raise_exception=True)
-        node = serializer.create(env_id, serializer.validated_data)
+        node = serializer.create(env_id, serializer.validated_data,request)
         new_serializer = NodeSerializer(node)
-        task = delay_create_container.delay("1",node.pk)
-        return response_schema(STATUS_CODE["SUCCESS"],new_serializer.data)
+        return response_schema(STATUS_CODE["SUCCESS"], new_serializer.data)
 
 
 @csrf_exempt
