@@ -23,32 +23,34 @@ class CloudProviderType(models.Model):
 
 class VsphereInstance(models.Model):
     provider = models.ForeignKey(CloudProviderType, related_name="vsphere_cloud_provider")
-    ip = models.GenericIPAddressField(blank=True, null=True)
+    ip = models.GenericIPAddressField(blank=True, null=True, default=None)
     username = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
-    vm_count = models.IntegerField()
+    vm_count = models.IntegerField(default=0)
     status = models.IntegerField(choices=CLOUD_STATUS, default=0)
 
     def __unicode__(self):
-        return self.pk
+        return "vsphere_instance_%s" % self.ip
 
 
 class DockerInstance(models.Model):
     provider = models.ForeignKey(CloudProviderType, related_name="docker_cloud_provider")
-    ip = models.GenericIPAddressField(blank=True,null=True,default=None)
+    ip = models.GenericIPAddressField(blank=True, null=True, default=None)
     port = models.IntegerField(default=2376)
     tls_verify = models.BooleanField(default=True)
     cert_path = models.CharField(max_length=500)
-    container_count = models.IntegerField()
+    container_count = models.IntegerField(default=0)
     status = models.IntegerField(choices=CLOUD_STATUS, default=0)
 
     def __unicode__(self):
-        return self.ip
+        return
+        return "docker_instance_%s" % self.ip
 
 
 ENV_STATUS = (
     (1, "READY"),
     (2, "DEPLOYING")
+    (3, "ERROR")
 )
 
 
@@ -68,6 +70,12 @@ class NodeType(models.Model):
         return self.type_name
 
 
+NODE_STATUS = (
+    (0, "STOP"),
+    (1, "RUNNING")
+)
+
+
 class Node(models.Model):
     node_name = models.CharField(max_length=255)
     node_type = models.ForeignKey(NodeType)
@@ -80,15 +88,16 @@ class Node(models.Model):
     splunk_password = models.CharField(max_length=30, default="notchangeme")
     ssh_username = models.CharField(max_length=30, default="root")
     ssh_password = models.CharField(max_length=30, default="password")
-    running = models.BooleanField(default=False)
     cloud_provider = models.ForeignKey(CloudProviderType, related_name="node_cloud_provider")
     provider_instance = models.IntegerField(blank=True, null=True)  # pk of instance table
     image_name = models.CharField(max_length=255, blank=True, null=True)
-    container_id = models.CharField(max_length=255,blank=True, null=True)
+    container_id = models.CharField(max_length=255, blank=True, null=True)
     build_number = models.CharField(max_length=255, blank=True, null=True)
+    status = models.IntegerField(choices=NODE_STATUS, default=0)
 
     def __unicode__(self):
-        return "%s_%s" % (self.node_name,self.node_type.type_name)
+        return "%s_%s" % (self.node_name, self.node_type.type_name)
+
 
 class ConnectionType(models.Model):
     type_name = models.CharField(max_length=30)
@@ -97,15 +106,22 @@ class ConnectionType(models.Model):
         return self.type_name
 
 
+CONNECTION_STATUS = (
+    (0, "NOT REALLY CONNECTED"),
+    (1, "CONNECTED")
+)
+
+
 class Connection(models.Model):
     source_node = models.ForeignKey(Node, related_name="source")
     target_node = models.ForeignKey(Node, related_name="target")
     connection_type = models.ForeignKey(ConnectionType, related_name="connection_type")
     env = models.ForeignKey(Environment, related_name="env")
     create_time = models.DateTimeField(auto_now=True)
+    status = models.IntegerField(choices=CONNECTION_STATUS, default=0)
 
     def __unicode__(self):
-        return "%s_%s_connection" % (self.source_node.node_name,self.target_node.node_name)
+        return "%s_%s_connection" % (self.source_node.node_name, self.target_node.node_name)
 
 
 from django.contrib import admin

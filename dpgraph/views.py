@@ -54,7 +54,7 @@ def environment_nodes_view(request, env_id):
     elif request.method == "POST":
         serializer = NodeSerializer(data=request.POST)
         serializer.is_valid(raise_exception=True)
-        node = serializer.create(env_id, serializer.validated_data,request)
+        node = serializer.create(env_id, serializer.validated_data, request)
         new_serializer = NodeSerializer(node)
         return response_schema(STATUS_CODE["SUCCESS"], new_serializer.data)
 
@@ -87,10 +87,17 @@ def environment_connection_view(request, env_id, connection_id):
         pass
 
 
+@csrf_exempt
+def environment_view(request, env_id):
+    if request.method == "GET":
+        pass
+
+
 from django.conf.urls import url
 
 urlpatterns = [
     url(r'^environments/$', environment_list_view),
+    url(r'^environments/(?P<env_id>\d+)$', environment_view),
     url(r'^environments/(?P<env_id>\d+)/nodes/$', environment_nodes_view),
     url(r'^environments/(?P<env_id>\d+)/nodes/(?P<node_id>\d+)$', environment_node_view),
     url(r'^environments/(?P<env_id>\d+)/connections/$', environment_connections_view),
