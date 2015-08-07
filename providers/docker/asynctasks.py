@@ -1,6 +1,8 @@
+import time
 from celery.task import task
 from providers.docker import DockerProvider
 from dpgraph.models import Node
+from orchestration.machine import Machine
 
 provider = DockerProvider()
 
@@ -9,7 +11,7 @@ provider = DockerProvider()
 def delay_create_container(image_name, env_id, node_id, node_type):
     container_name = "%s-%s-%s" % (node_type, env_id, node_id)
 
-    container,engine = provider.create(**{
+    container, engine = provider.create(**{
         "image": image_name,
         "ports": ["8000", "8089", "22"],
         "name": container_name
@@ -28,5 +30,15 @@ def delay_create_container(image_name, env_id, node_id, node_type):
     node.ip = engine.ip
     node.provider_instance = int(engine.pk)
 
-    node.save()
+    # wait for the ssh ready
+    retry = 10
+    machine = Machine(node)
+    while retry > 0:
+        if machine.is_ssh_accessible:
+            node.status = 1
+            break
+        else:
+            time.sleep(10)
+            retry -= 1
 
+    node.save()

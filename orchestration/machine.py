@@ -1,5 +1,6 @@
 from fabric.context_managers import settings, hide
 from fabric.operations import run
+import paramiko
 
 # machine absraction
 
@@ -16,6 +17,16 @@ class Machine(object):
     @property
     def ssh_host_string(self):
         return "%s:%s" % (self.self.public_ip, self.ssh_port)
+
+    @property
+    def is_ssh_accessible(self, timeout=10):
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        try:
+            ssh.connect(self.public_ip, int(self.ssh_port), self.ssH_username, self.ssh_password, timeout=timeout)
+            return True
+        except Exception, e:
+            return False
 
     def execute_command(self, cmd):
         with settings(hide('warnings', 'running', 'stdout', 'stderr'), host_string=self.ssh_host_string,
