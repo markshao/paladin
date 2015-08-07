@@ -1,6 +1,8 @@
 from fabric.context_managers import settings, hide
 from fabric.operations import run
 
+# machine absraction
+
 class Machine(object):
     def __init__(self, node):
         self.node = node
