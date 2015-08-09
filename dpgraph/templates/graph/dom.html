@@ -1,17 +1,21 @@
-<!doctype html>
-<html>
-    <head>
-        <title>jsPlumb 1.7.6 demo - jQuery</title>
-        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+
+{% extends "base.html" %}
+
+{% block body_container %}
+
+
+{##}
+{#        <meta http-equiv="content-type" content="text/html;charset=utf-8" />#}
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-        <link href="//fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+{#        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">#}
+{#        <link href="//fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">#}
 
         <link rel="stylesheet" href="../../../static/css/jsPlumb/css/jsPlumbToolkit-defaults.css">
-        <link rel="stylesheet" href="../../../static/css/jsPlumb/css/main.css">
+{#        <link rel="stylesheet" href="../../../static/css/jsPlumb/css/main.css">#}
         <link rel="stylesheet" href="../../../static/css/jsPlumb/css/jsPlumbToolkit-demo.css">
-        <link rel="stylesheet" href="demo.css">
+
+
         <style>
             .demo {
                     /* for IE10+ touch devices */
@@ -93,29 +97,29 @@
                 }
 
                 #peer_1 {
-                    left: 114px;
-                    top: 354px;
+                    left: 164px;
+                    top: 379px;
                     width: 7em;
                 }
 
                 #peer_2 {
-                    left: 445px;
-                    top: 354px;
+                    left: 320px;
+                    top: 379px;
                 }
 
                 #peer_3 {
-                    left: 274px;
-                    top: 354px;
+                    left: 478px;
+                    top: 379px;
                 }
 
                 #sh_1 {
-                    left: 782px;
-                    top: 174px;
+                    left: 682px;
+                    top: 0px;
                 }
 
                 #sh_2 {
-                    left: 952px;
-                    top: 124px;
+                    left: 682px;
+                    top: 66px;
                 }
                 #sh_3 {
                     left: 893px;
@@ -130,50 +134,36 @@
 
         </style>
 
-    </head>
 
+    <div class="container">
+{#    <div id="nodePalette" class="sidebar" style=" margin-top: 38px";>#}
+{#                    <ul>#}
+{#                        <button type="button"  title="Click to add new" >#}
+{#                            Indexer#}
+{#                        </button>#}
+{#                        <li jtk-node-type="Search_Peer" title="Click to add new" >#}
+{#                            <i class="icon-tablet"></i>Search Peer#}
+{#                        </li>#}
+{#                        <li jtk-node-type="Search_Head" title="Click to add new">#}
+{#                                <i class="icon-tablet"></i>Search Head#}
+{#                        </li>#}
+{#                    </ul>#}
+{##}
+{#    </div>#}
+{##}
 
-    <body data-demo-id="statemachine" data-library="dom">
-    <div class="navbar navbar-top navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+    <div id="nodePalette" class="sidebar" style=" margin-top: 33px;">
 
-                <a class="navbar-brand" href="/"><img src="../../img/logo-medium-jsplumb.png"></a>
-                <div class="community"></div>
-
+            <div class="list-group">
+              <button type="button" id="create_indexer" class="list-group-item" style="width: 150px;">Indexer</button>
+              <button type="button" id="create_sh"class="list-group-item" style="width: 150px;">Search Head</button>
+              <button type="button" id="create_sp" class="list-group-item" style="width: 150px;">Search Peer</button>
             </div>
-
-            <div class="navbar-collapse collapse nav-wrapper">
-                <ul class="nav navbar-nav">
-                    <li><a href="/">DEMOS</a></li>
-                    <li><a href="/doc/home.html">DOCS</a></li>
-                    <li><a href="/download">DOWNLOAD</a></li>
-                    <li><a href="http://beta.jsplumbtoolkit.com/contact.html">CONTACT</a></li>
-                    <li><a href="https://blog.jsplumbtoolkit.com">BLOG</a></li>
-                </ul>
-
-                <div class="apidoc-jsplumb-logo"><div class="container"><img src="/img/logo-docs-jsplumb.png"></div></div>
-
-                <div class="social-nav hidden-xs">
-                    <!--a href="#" class="link"><span class="icon-facebook"></span></a-->
-                    <a href="http://twitter.com/jsplumblib" class="link"><span class="icon-twitter"></span></a>
-                    <a href="http://github.com/sporritt/jsplumb/" class="link"><span class="icon-github"></span></a>
-                    <a href="http://www.linkedin.com/company/jsplumb" class="link"><span class="icon-linkedin"></span></a>
-
-                </div>
-            </div><!--/.nav-collapse -->
-        </div>
-    </div>
-
+       </div>
+    <div data-demo-id="statemachine" data-library="dom">
         <div id="main">
             <!-- demo -->
-            <div class="canvas canvas-wide statemachine-demo jtk-surface jtk-surface-nopan" id="canvas">
+            <div class="canvas canvas-wide statemachine-demo jtk-surface jtk-surface-nopan" id="canvas" style="bottom:60px">
                 <div class="w" id="master">ClusterMaster  
                     <div class="ep"></div>
                 </div>
@@ -192,25 +182,15 @@
                 <div class="w" id="sh_2">SearchHead
                     <div class="ep"></div>
                 </div>
-                <div class="w" id="sh_3">SearchHead
-                    <div class="ep"></div>
-                </div>
+{#                <div class="w" id="sh_3">SearchHead#}
+{#                    <div class="ep"></div>#}
+{#                </div>#}
             </div>
             <!-- /demo -->
             <!-- explanation -->
-            <div class="description">
-                <h4>STATE MACHINE</h4>
-                <p>Nodes are connected with the StateMachine connector.</p>
-                <p>Endpoints are located with 'Continuous' anchors, which are anchors whose location is calculated based on
-                    the location of all other connected elements, and which guarantee a unique endpoint per connection.
-                </p>
-                <p>Click and drag new Connections from the orange div in each element; the main elements in the UI are
-                    configured to be Connection targets. You can drag from one of these divs onto its parent element to
-                    create a 'loopback' connection. Each element supports up to 5 Connections.</p>
-                <p>Click on a Connection to delete it.</p>
-            </div>
-            <!-- /explanation -->
         </div>
+    </div>
+    </div>
 
 
 
@@ -255,94 +235,108 @@
         <script src="../../../static/js/jsPlumb/src/base-library-adapter.js"></script>
         <!-- no library jsPlumb adapter -->
         <script src="../../../static/js/jsPlumb/src/dom.jsPlumb.js"></script>
+        <script src="../../../static/js/d3.min.js" charset="utf-8"></script>
         <!-- /JS -
 
         <!--  demo code -->
         <script>
             jsPlumb.ready(function () {
 
-    // setup some defaults for jsPlumb.
-    var instance = jsPlumb.getInstance({
-        Endpoint: ["Dot", {radius: 2}],
-        HoverPaintStyle: {strokeStyle: "#1e8151", lineWidth: 2 },
-        ConnectionOverlays: [
-            [ "Arrow", {
-                location: 1,
-                id: "arrow",
-                length: 14,
-                foldback: 0.8
-            } ],
-            [ "Label", { label: "FOO", id: "label", cssClass: "aLabel" }]
-        ],
-        Container: "canvas"
-    });
+            // setup some defaults for jsPlumb.
+            var instance = jsPlumb.getInstance({
+                Endpoint: ["Dot", {radius: 2}],
+                HoverPaintStyle: {strokeStyle: "#1e8151", lineWidth: 2 },
+                ConnectionOverlays: [
+                    [ "Arrow", {
+                        location: 1,
+                        id: "arrow",
+                        length: 14,
+                        foldback: 0.8
+                    } ],
+                    [ "Label", { label: "FOO", id: "label", cssClass: "aLabel" }]
+                ],
+                Container: "canvas"
+            });
 
-    window.jsp = instance;
+            window.jsp = instance;
 
-    var windows = jsPlumb.getSelector(".statemachine-demo .w");
+            var windows = jsPlumb.getSelector(".statemachine-demo .w");
 
-    // initialise draggable elements.
-    instance.draggable(windows);
+            // initialise draggable elements.
+            instance.draggable(windows);
 
-    // bind a click listener to each connection; the connection is deleted. you could of course
-    // just do this: jsPlumb.bind("click", jsPlumb.detach), but I wanted to make it clear what was
-    // happening.
-    instance.bind("click", function (c) {
-        instance.detach(c);
-    });
+            // bind a click listener to each connection; the connection is deleted. you could of course
+            // just do this: jsPlumb.bind("click", jsPlumb.detach), but I wanted to make it clear what was
+            // happening.
+            instance.bind("click", function (c) {
+                instance.detach(c);
+            });
 
-    // bind a connection listener. note that the parameter passed to this function contains more than
-    // just the new connection - see the documentation for a full list of what is included in 'info'.
-    // this listener sets the connection's internal
-    // id as the label overlay's text.
-    instance.bind("connection", function (info) {
-        info.connection.getOverlay("label").setLabel(info.connection.id);
-    });
-
-
-    // suspend drawing and initialise.
-    instance.batch(function () {
-        instance.makeSource(windows, {
-            filter: ".ep",
-            anchor: "Continuous",
-            connector: [ "StateMachine", { curviness: 20 } ],
-            connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },
-            maxConnections: 5,
-            onMaxConnections: function (info, e) {
-                alert("Maximum connections (" + info.maxConnections + ") reached");
-            }
-        });
-
-        // initialise all '.w' elements as connection targets.
-        instance.makeTarget(windows, {
-            dropOptions: { hoverClass: "dragHover" },
-            anchor: "Continuous",
-            allowLoopback: true
-        });
-
-        // and finally, make a couple of connections
-        //indexing clustering
-        instance.connect({ source: "peer_1", target: "master" });
-        instance.connect({ source: "peer_2", target: "master" });
-        instance.connect({ source: "peer_3", target: "master" });
-        // search head clustering
-        instance.connect({ source: "sh_1", target: "sh_2" });
-        instance.connect({ source: "sh_2", target: "sh_3" });
-        instance.connect({ source: "sh_3", target: "sh_1" });
-
-        instance.connect({ source: "sh_1", target: "master" });
-        instance.connect({ source: "sh_2", target: "master" });
-        instance.connect({ source: "sh_3", target: "master" });
-
-    });
-
-    jsPlumb.fire("jsPlumbDemoLoaded", instance);
-
-});
+            // bind a connection listener. note that the parameter passed to this function contains more than
+            // just the new connection - see the documentation for a full list of what is included in 'info'.
+            // this listener sets the connection's internal
+            // id as the label overlay's text.
+            instance.bind("connection", function (info) {
+                info.connection.getOverlay("label").setLabel(info.connection.id);
+            });
 
 
-        </script>
+            // suspend drawing and initialise.
+            instance.batch(function () {
+                instance.makeSource(windows, {
+                    filter: ".ep",
+                    anchor: "Continuous",
+                    connector: [ "StateMachine", { curviness: 20 } ],
+                    connectorStyle: { strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },
+                    maxConnections: 5,
+                    onMaxConnections: function (info, e) {
+                        alert("Maximum connections (" + info.maxConnections + ") reached");
+                    }
+                });
 
-        <script src="../demo-list.js"></script>
-    </body>
-</html>
+                // initialise all '.w' elements as connection targets.
+                instance.makeTarget(windows, {
+                    dropOptions: { hoverClass: "dragHover" },
+                    anchor: "Continuous",
+                    allowLoopback: true
+                });
+
+                // and finally, make a couple of connections
+                //indexing clustering
+                instance.connect({ source: "peer_1", target: "master" });
+                instance.connect({ source: "peer_2", target: "master" });
+                instance.connect({ source: "peer_3", target: "master" });
+        {#        // search head clustering#}
+        {#        instance.connect({ source: "sh_1", target: "sh_2" });#}
+        {#        instance.connect({ source: "sh_2", target: "sh_3" });#}
+        {#        instance.connect({ source: "sh_3", target: "sh_1" });#}
+        {##}
+                instance.connect({ source: "sh_1", target: "master" });
+                instance.connect({ source: "sh_2", target: "master" });
+        {#        instance.connect({ source: "sh_3", target: "master" });#}
+
+            });
+
+            jsPlumb.fire("jsPlumbDemoLoaded", instance);
+
+            });
+
+
+           // add new node
+           $('button[id^="create_"]').live('click', function () {
+               console.log(this.id.split("_")[1])
+{#              var panel = d3.select("#" + canvas);#}
+{#              panel.append('div').style('width','120px').style('height','50px')#}
+{#                .style('position','absolute')#}
+{#                .style('top','100').style('left','200px')#}
+{#                .style('border','2px #9DFFCA solid').attr('align','center')#}
+{#                .attr('id','nodeId').classed('node',true)#}
+{#                .text("nodelabel");#}
+
+
+
+           })
+
+     </script>
+
+    {% endblock %}
