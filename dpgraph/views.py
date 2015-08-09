@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
 from rest_framework.renderers import JSONRenderer
 from dpgraph.models import Environment, Node, Connection
 from dpgraph.serializers import EnvironmentSerializer, ConnectionSerializer, NodeSerializer
@@ -92,12 +93,16 @@ def environment_view(request, env_id):
     if request.method == "GET":
         pass
 
+@csrf_exempt
+def environment__graph_view(request, env_id):
+    return render(request, "graph/dom.html",)
 
 from django.conf.urls import url
 
 urlpatterns = [
     url(r'^environments/$', environment_list_view),
     url(r'^environments/(?P<env_id>\d+)$', environment_view),
+    url(r'^environments/(?P<env_id>\d+)/graph$', environment__graph_view),
     url(r'^environments/(?P<env_id>\d+)/nodes/$', environment_nodes_view),
     url(r'^environments/(?P<env_id>\d+)/nodes/(?P<node_id>\d+)$', environment_node_view),
     url(r'^environments/(?P<env_id>\d+)/connections/$', environment_connections_view),
