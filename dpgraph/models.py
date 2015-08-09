@@ -49,7 +49,7 @@ class DockerInstance(models.Model):
 
 ENV_STATUS = (
     (1, "READY"),
-    (2, "DEPLOYING")
+    (2, "DEPLOYING"),
     (3, "ERROR")
 )
 
