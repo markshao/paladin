@@ -2,4 +2,6 @@
  * Created by cesc on 8/9/15.
  */
 
-alert("html");
+jsPlumb.ready(function(){
+    alert("helo");
+});
